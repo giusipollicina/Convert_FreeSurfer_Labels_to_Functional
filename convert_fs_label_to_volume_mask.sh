@@ -55,19 +55,73 @@ for subject in "${subject_list[@]}"; do
 	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-01_bold2fs.mat \
 	-bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12  -interp trilinear
 	
+    /usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-02_meants.nii.gz \
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/freesurfer_brain.nii.gz \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-02_bold2fs.nii.gz \
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-02_bold2fs.mat \
+	-bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12  -interp trilinear
+	
+    /usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-03_meants.nii.gz \
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/freesurfer_brain.nii.gz \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-03_bold2fs.nii.gz \
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-03_bold2fs.mat \
+	-bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12  -interp trilinear
+	
+    /usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-04_meants.nii.gz \
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/freesurfer_brain.nii.gz \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-04_bold2fs.nii.gz \
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-04_bold2fs.mat \
+	-bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12  -interp trilinear
+	
     ### Invert the transformation matrix
     /usr/local/apps/psycapps/fsl/fsl-latest/bin/convert_xfm \
-	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_fs2bold.mat \
-	-inverse /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_bold2fs.mat
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-01_fs2bold.mat \
+	-inverse /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-01_bold2fs.mat
 
-    ### Apply the tranformation matrix
+    /usr/local/apps/psycapps/fsl/fsl-latest/bin/convert_xfm \
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-02_fs2bold.mat \
+	-inverse /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-02_bold2fs.mat
+
+    /usr/local/apps/psycapps/fsl/fsl-latest/bin/convert_xfm \
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-03_fs2bold.mat \
+	-inverse /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-03_bold2fs.mat
+	
+    /usr/local/apps/psycapps/fsl/fsl-latest/bin/convert_xfm \
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-04_fs2bold.mat \
+	-inverse /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-04_bold2fs.mat
+
+### Apply the tranformation matrix
 
     /usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
-	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/masks/lh_V1.nii.gz \
-	-applyxfm -init /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_fs2bold.mat \
-	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/masks/lh_V1_bold.nii.gz \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/masks/lh_V1.nii.gz \
+	-applyxfm -init /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-01_fs2bold.mat \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/masks/lh_V1_bold.nii.gz \
 	-paddingsize 0.0 -interp trilinear \
-	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_meants.nii.gz
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-01_meants.nii.gz
+	
+/usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/masks/lh_V1.nii.gz \
+	-applyxfm -init /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-02_fs2bold.mat \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/masks/lh_V1_bold.nii.gz \
+	-paddingsize 0.0 -interp trilinear \
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-02_meants.nii.gz
+	
+	/usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/masks/lh_V1.nii.gz \
+	-applyxfm -init /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-03_fs2bold.mat \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/masks/lh_V1_bold.nii.gz \
+	-paddingsize 0.0 -interp trilinear \
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-03_meants.nii.gz
+	
+	/usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/masks/lh_V1.nii.gz \
+	-applyxfm -init /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-04_fs2bold.mat \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/masks/lh_V1_bold.nii.gz \
+	-paddingsize 0.0 -interp trilinear \
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/$subject/$subject_ses-mri_task-sound_run-04_meants.nii.gz
 
 done
 
