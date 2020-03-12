@@ -8,6 +8,8 @@
 ### change to the corresponding subject folder
 source /usr/local/apps/psycapps/config/freesurfer_bash_update /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/freesurfer
 
+### use fsl
+source /usr/local/apps/psycapps/config/fsl_bash
 
 ### Convert Freeesurfer Brain to volumetric brain (.mgz to .nii.gz)
 ### The nifti output of the previous step results in a volume image of 256x256x256. If you want to change the size use -- cropsize flag
@@ -30,5 +32,31 @@ mri_label2vol --label Sounds_analysis/freesurfer/sub-03/label/lh.V1_exvivo.thres
 	      
 ### Fix the orientation of the mask
 mri_convert --out_orientation RAS Sounds_analysis/sub-03/masks/lh_V1.nii.gz Sounds_analysis/sub-03/masks/lh_V1.nii.gz
+
+### Create mean of your functional scans using fslmaths
+fslmaths /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_BIDS_old/sub-03/ses-mri/func/sub-03_ses-ses-mri_task-sound_run-01_bold.nii.gz -Tmean /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_meants.nii.gz
+
+### Coregister Mean TS with freesurfer brain
+/usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_meants.nii.gz \
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/freesurfer_brain.nii.gz \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_bold2fs.nii.gz \
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_bold2fs.mat \
+	-bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12  -interp trilinear
+	
+### Invert the transformation matrix
+/usr/local/apps/psycapps/fsl/fsl-latest/bin/convert_xfm \
+	-omat /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_fs2bold.mat \
+	-inverse /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_bold2fs.mat
+
+### Apply the tranformation matrix
+
+/usr/local/apps/psycapps/fsl/fsl-latest/bin/flirt \
+	-in /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/masks/lh_V1.nii.gz \
+	-applyxfm -init /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_fs2bold.mat \
+	-out /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/masks/lh_V1_bold.nii.gz \
+	-paddingsize 0.0 -interp trilinear \
+	-ref /MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/sub-03/sub-03_ses-mri_task-sound_run-01_meants.nii.gz
+
 
 
