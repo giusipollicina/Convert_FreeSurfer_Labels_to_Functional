@@ -14,3 +14,15 @@ source /usr/local/apps/psycapps/config/freesurfer_bash_update /MRIWork/MRIWork10
 mri_convert --out_orientation RAS Sounds_analysis/freesurfer/sub-03/mri/brain.mgz Sounds_analysis/sub-03/freesurfer_brain.nii.gz
 
 
+### if you want to merge multiple labels use the following command
+# mri_mergelabels -i label1.label -i label2.label -o generated_label.label
+
+### Convert Label to volume 
+
+mri_label2vol --label Sounds_analysis/freesurfer/sub-03/label/lh.V1_exvivo.thresh.label \
+              --identity \
+              --temp Sounds_analysis/freesurfer/sub-03/mri/brain.mgz \
+				      --fillthresh 0.0  \
+				      --proj frac 0 1 .1 \
+				      --subject sub-03 --hemi lh \
+				      --o Sounds_analysis/sub-03/mask/lh_V1.nii.gz
