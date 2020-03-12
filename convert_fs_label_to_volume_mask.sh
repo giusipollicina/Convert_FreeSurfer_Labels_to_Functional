@@ -25,4 +25,4 @@ mri_label2vol --label Sounds_analysis/freesurfer/sub-03/label/lh.V1_exvivo.thres
 	      --fillthresh 0.0  \
 	      --proj frac 0 1 .1 \
 	      --subject sub-03 --hemi lh \
-	      --o Sounds_analysis/sub-03/mask/lh_V1.nii.gz
+	      --o Sounds_analysis/sub-03/masks/lh_V1.nii.gz
