@@ -26,3 +26,9 @@ mri_label2vol --label Sounds_analysis/freesurfer/sub-03/label/lh.V1_exvivo.thres
 	      --proj frac 0 1 .1 \
 	      --subject sub-03 --hemi lh \
 	      --o Sounds_analysis/sub-03/masks/lh_V1.nii.gz
+	      
+	      
+### Fix the orientation of the mask
+mri_convert --out_orientation RAS Sounds_analysis/sub-03/masks/lh_V1.nii.gz Sounds_analysis/sub-03/masks/lh_V1.nii.gz
+
+
