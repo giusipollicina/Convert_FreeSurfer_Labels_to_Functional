@@ -6,7 +6,7 @@ OUTPUT_LOG_DIR=/MRIWork/MRIWork10/pv/giusi_pollicina/Sounds_analysis/freesurfer/
 
 mkdir -p $OUTPUT_LOG_DIR
 
-script_folder=$(pwd)
+script_folder=/MRIWork/MRIWork10/pv/giusi_pollicina/Convert_FreeSurfer_Labels_to_Functional
 
 for subject_number in $subject
 
